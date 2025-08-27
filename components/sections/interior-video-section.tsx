@@ -41,7 +41,7 @@ export default function InteriorVideoSection() {
               className="w-full h-full object-cover object-center"
               style={{ filter: 'brightness(1.05) contrast(1.1)' }}
             >
-              <source src="/images/interior-video.mp4" type="video/mp4" />
+              <source src="/images/interior-video.webm" type="video/webm" />
               <div className="w-full h-full bg-gradient-to-br from-[#F5F1EB] to-[#D4A574]/30 flex items-center justify-center">
                 <div className="text-center">
                   <div className="w-16 h-16 border-4 border-[#2B5F75] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
