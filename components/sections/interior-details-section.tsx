@@ -210,7 +210,7 @@ export default function InteriorDetailsSection() {
           >
             <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl" style={{ aspectRatio: '4/3' }}>
               <Image
-                src="/images/interior.png"
+                src="/images/interior-min.png"
                 alt="Campervan Innenraum Layout"
                 fill
                 className="object-cover object-center hover:scale-105 transition-transform duration-700"

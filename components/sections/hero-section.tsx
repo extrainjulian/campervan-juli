@@ -11,7 +11,7 @@ export default function HeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/frontview.png"
+          src="/images/frontview-min.png"
           alt="CampervanJuli van on beach"
           fill
           className="object-cover"
