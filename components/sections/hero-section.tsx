@@ -53,9 +53,23 @@ export default function HeroSection() {
             Dein Beitrag = Deine Urlaubsmonate.
           </motion.p>
 
-          {/* Button */}
+          {/* Mobile Button - Inside hero text container */}
           <motion.div 
-            className="flex justify-center md:justify-start mt-4"
+            className="md:hidden flex justify-center mt-8 sm:mt-24"
+            variants={fadeInUp}
+          >
+            <Button 
+              size="lg"
+              className="bg-[#D4A574] hover:bg-[#c19660] text-black font-semibold text-lg px-8 py-3 h-auto"
+              onClick={() => document.getElementById('availability')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              Jetzt mitmachen
+            </Button>
+          </motion.div>
+
+          {/* Desktop Button */}
+          <motion.div 
+            className="hidden md:flex justify-center mt-4"
             variants={fadeInUp}
           >
             <Button 
