@@ -39,53 +39,40 @@ export default function MountainSection() {
   }, [supabase.auth]);
 
   const handleReservation = async () => {
+    // If user is not logged in, redirect to auth/login immediately
+    if (!user) {
+      router.push("/auth/login");
+      return;
+    }
+
     // Check if at least startMonth is selected (single month selection is valid)
     if (!selectedRange.startMonth || !selectedRange.startYear) {
       alert("Bitte wähle einen Zeitraum aus");
       return;
     }
 
-    // If user is not logged in, redirect to auth/login
-    if (!user) {
-      const params = new URLSearchParams();
-      
-      if (selectedRange.startMonth && selectedRange.startYear) {
-        params.set("startMonth", selectedRange.startMonth.toString());
-        params.set("startYear", selectedRange.startYear.toString());
-      }
-      
-      if (selectedRange.endMonth && selectedRange.endYear) {
-        params.set("endMonth", selectedRange.endMonth.toString());
-        params.set("endYear", selectedRange.endYear.toString());
-      }
-      
-      const queryString = params.toString();
-      const authUrl = queryString ? `/auth/login?${queryString}` : "/auth/login";
-      
-      router.push(authUrl);
-      return;
-    }
-
     // If user is logged in, create booking directly
-    setLoading(true);
-    
-    try {
-      const result = await createMonthBooking({
-        userId: user.id,
-        userEmail: user.email,
-        userName: user.user_metadata?.full_name || user.email,
-        selectedRange
-      });
+    if (user) {
+      setLoading(true);
+      
+      try {
+        const result = await createMonthBooking({
+          userId: user.id,
+          userEmail: user.email,
+          userName: user.user_metadata?.full_name || user.email,
+          selectedRange
+        });
 
-      if (result.success) {
-        router.push("/dashboard");
-      } else {
-        alert(result.error || "Fehler beim Erstellen der Buchung");
+        if (result.success) {
+          router.push("/dashboard");
+        } else {
+          alert(result.error || "Fehler beim Erstellen der Buchung");
+        }
+      } catch (err: unknown) {
+        alert(err instanceof Error ? err.message : "Ein Fehler ist aufgetreten");
+      } finally {
+        setLoading(false);
       }
-    } catch (err: unknown) {
-      alert(err instanceof Error ? err.message : "Ein Fehler ist aufgetreten");
-    } finally {
-      setLoading(false);
     }
   };
   
@@ -104,7 +91,7 @@ export default function MountainSection() {
           >
             <motion.div variants={fadeInLeft} className="text-center">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Deine <span className="text-[#D4A574]">Teilnahme</span> wählen
+                Deinen <span className="text-[#D4A574]">Zeitraum</span> auswählen
               </h2>
               <p className="text-base text-gray-300 mb-6">
                 Wähle deine gewünschten Monate zwischen 2026 und 2027. 
