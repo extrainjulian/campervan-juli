@@ -1,64 +1,130 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { fadeInLeft, fadeInRight, staggerContainer } from "@/lib/animations";
-import AvailabilityCalendar from "@/components/booking/availability-calendar";
-import Image from "next/image";
+import { fadeInLeft, staggerContainer } from "@/lib/animations";
+import MonthSelector from "@/components/booking/month-selector";
+import { MonthRange } from "@/types/booking";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+import { createMonthBooking } from "@/app/actions/create-booking";
 
 export default function MountainSection() {
+  const [selectedRange, setSelectedRange] = useState<MonthRange>({
+    startMonth: null,
+    startYear: null,
+    endMonth: null,
+    endYear: null
+  });
+  const [user, setUser] = useState<any>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const supabase = createClient();
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+
+    checkUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user || null);
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, [supabase.auth]);
+
+  const handleReservation = async () => {
+    // Check if at least startMonth is selected (single month selection is valid)
+    if (!selectedRange.startMonth || !selectedRange.startYear) {
+      alert("Bitte wähle einen Zeitraum aus");
+      return;
+    }
+
+    // If user is not logged in, redirect to auth/login
+    if (!user) {
+      const params = new URLSearchParams();
+      
+      if (selectedRange.startMonth && selectedRange.startYear) {
+        params.set("startMonth", selectedRange.startMonth.toString());
+        params.set("startYear", selectedRange.startYear.toString());
+      }
+      
+      if (selectedRange.endMonth && selectedRange.endYear) {
+        params.set("endMonth", selectedRange.endMonth.toString());
+        params.set("endYear", selectedRange.endYear.toString());
+      }
+      
+      const queryString = params.toString();
+      const authUrl = queryString ? `/auth/login?${queryString}` : "/auth/login";
+      
+      router.push(authUrl);
+      return;
+    }
+
+    // If user is logged in, create booking directly
+    setLoading(true);
+    
+    try {
+      const result = await createMonthBooking({
+        userId: user.id,
+        userEmail: user.email,
+        userName: user.user_metadata?.full_name || user.email,
+        selectedRange
+      });
+
+      if (result.success) {
+        router.push("/dashboard");
+      } else {
+        alert(result.error || "Fehler beim Erstellen der Buchung");
+      }
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : "Ein Fehler ist aufgetreten");
+    } finally {
+      setLoading(false);
+    }
+  };
   
   return (
     <section id="availability" className="py-16 bg-[#2A2A2A] flex items-center" style={{ minHeight: '80vh' }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-center">
           
-          {/* Left Content - Date Picker */}
+          {/* Content - Date Picker */}
           <motion.div 
-            className="space-y-8"
+            className="w-full max-w-lg space-y-8"
             variants={staggerContainer}
             initial="initial"
             whileInView="animate"
             viewport={{ once: true, amount: 0.3 }}
           >
-            <motion.div variants={fadeInLeft}>
+            <motion.div variants={fadeInLeft} className="text-center">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Verfügbare Zeiträume
+                Deine <span className="text-[#D4A574]">Teilnahme</span> wählen
               </h2>
               <p className="text-base text-gray-300 mb-6">
-                Wähle deine gewünschten Reisedaten und buche direkt deinen Campervan für dein Abenteuer.
+                Wähle deine gewünschten Monate zwischen 2026 und 2027. 
+                Jeder Monat kostet €1.000 für die Teilnahme am Projekt.
               </p>
             </motion.div>
             
-            <motion.div variants={fadeInLeft} className="space-y-4">
-              <AvailabilityCalendar />
+            <motion.div variants={fadeInLeft} className="space-y-6">
+              <MonthSelector onSelectionChange={setSelectedRange} />
               
               <div className="text-center">
-                <button className="bg-[#D4A574] hover:bg-[#c19660] text-black font-semibold px-6 py-2.5 rounded-lg transition-colors text-sm">
-                  Jetzt buchen
+                <button 
+                  onClick={handleReservation}
+                  disabled={loading}
+                  className="bg-[#D4A574] hover:bg-[#c19660] disabled:opacity-50 text-black font-semibold px-8 py-3 rounded-lg transition-colors text-base"
+                >
+                  {loading ? "Wird erstellt..." : "Teilnahme reservieren"}
                 </button>
               </div>
             </motion.div>
-          </motion.div>
-
-          {/* Right Image */}
-          <motion.div 
-            className="w-full"
-            variants={fadeInRight}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            {/* Image Container */}
-            <div className="relative w-full mt-16">
-              <Image
-                src="/images/sideview.png"
-                alt="CampervanJuli Seitenansicht Panorama"
-                width={1000}
-                height={600}
-                className="w-full h-auto rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-700 scale-110"
-                style={{ filter: 'brightness(1.05) contrast(1.1)' }}
-              />
-            </div>
           </motion.div>
 
         </div>
