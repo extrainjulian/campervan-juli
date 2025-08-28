@@ -1,33 +1,52 @@
-// Types for booking and availability system
+// Types for month-based booking and availability system
 
 export type BookingStatus = 'available' | 'booked' | 'pending' | 'blocked' | 'past';
 
-export type DayStatus = {
-  date: string; // YYYY-MM-DD format
+// Month-based booking entity
+export type MonthBooking = {
+  id: string;
+  startMonth: number; // 1-12
+  startYear: number;
+  endMonth: number; // 1-12
+  endYear: number;
+  totalMonths: number;
   status: BookingStatus;
-  bookingId?: string;
-  isStartDate?: boolean;
-  isEndDate?: boolean;
+  participantName?: string;
+  participantEmail?: string;
+  participantPhone?: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
-export type CalendarMonth = {
+export type MonthStatus = {
   year: number;
   month: number; // 1-12
-  days: DayStatus[];
+  status: BookingStatus;
+  bookingId?: string;
 };
 
+export type MonthRange = {
+  startMonth: number | null; // 1-12
+  startYear: number | null;
+  endMonth: number | null; // 1-12
+  endYear: number | null;
+};
+
+export type ParticipationFormData = {
+  startMonth: number;
+  startYear: number;
+  endMonth: number;
+  endYear: number;
+  participantName: string;
+  participantEmail: string;
+  participantPhone?: string;
+};
+
+// Legacy types for compatibility (can be removed later)
 export type DateRange = {
   startDate: Date | null;
   endDate: Date | null;
 };
 
-export type BookingFormData = {
-  startDate: string;
-  endDate: string;
-  guestName: string;
-  guestEmail: string;
-  guestPhone?: string;
-};
-
-// Utility type for date formatting
-export type DateString = string; // YYYY-MM-DD format
+// Utility type for month formatting
+export type MonthString = string; // YYYY-MM format

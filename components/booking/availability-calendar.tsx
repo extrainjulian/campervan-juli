@@ -7,7 +7,8 @@ import { getMonthAvailability, type BookingData } from "@/app/actions/availabili
 import { BookingStatus, DateRange } from "@/types/booking";
 
 export default function AvailabilityCalendar() {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  // Start with January 2026 for investment model
+  const [currentMonth, setCurrentMonth] = useState(new Date(2026, 0, 1));
   const [bookings, setBookings] = useState<BookingData[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedRange, setSelectedRange] = useState<DateRange>({ startDate: null, endDate: null });
@@ -96,16 +97,20 @@ export default function AvailabilityCalendar() {
   const handleDateClick = (date: Date) => {
     const status = getDayStatus(date);
     if (status !== 'available') return;
+    
+    // For investment model, only allow full month selections
+    const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+    const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
     if (!selectedRange.startDate || (selectedRange.startDate && selectedRange.endDate)) {
-      // Start new selection
-      setSelectedRange({ startDate: date, endDate: null });
+      // Start new selection with full month
+      setSelectedRange({ startDate: firstDayOfMonth, endDate: lastDayOfMonth });
     } else if (selectedRange.startDate && !selectedRange.endDate) {
-      // Complete the range
+      // Complete the range with full months
       if (date >= selectedRange.startDate) {
-        setSelectedRange({ ...selectedRange, endDate: date });
+        setSelectedRange({ ...selectedRange, endDate: lastDayOfMonth });
       } else {
-        setSelectedRange({ startDate: date, endDate: null });
+        setSelectedRange({ startDate: firstDayOfMonth, endDate: lastDayOfMonth });
       }
     }
   };
@@ -119,9 +124,33 @@ export default function AvailabilityCalendar() {
   const navigateMonth = (direction: 'prev' | 'next') => {
     setCurrentMonth(prev => {
       const newMonth = new Date(prev);
-      newMonth.setMonth(prev.getMonth() + (direction === 'next' ? 1 : -1));
-      return newMonth;
+      const newMonthValue = prev.getMonth() + (direction === 'next' ? 1 : -1);
+      
+      // Restrict navigation to 2026 only
+      if (newMonthValue < 0) {
+        return new Date(2026, 11, 1); // December 2026
+      } else if (newMonthValue > 11) {
+        return new Date(2026, 0, 1); // January 2026
+      } else {
+        newMonth.setMonth(newMonthValue);
+        newMonth.setFullYear(2026); // Force year to 2026
+        return newMonth;
+      }
     });
+  };
+
+  const calculateMonthsSelected = (): number => {
+    if (!selectedRange.startDate || !selectedRange.endDate) return 0;
+    const startMonth = selectedRange.startDate.getMonth();
+    const endMonth = selectedRange.endDate.getMonth();
+    const startYear = selectedRange.startDate.getFullYear();
+    const endYear = selectedRange.endDate.getFullYear();
+    return (endYear - startYear) * 12 + (endMonth - startMonth) + 1;
+  };
+
+  const calculateContributionAmount = (): number => {
+    const months = calculateMonthsSelected();
+    return months * 1000; // €1000 per month
   };
 
   const calendarDays = generateCalendarDays();
@@ -225,9 +254,14 @@ export default function AvailabilityCalendar() {
               {selectedRange.endDate && ` - ${selectedRange.endDate.toLocaleDateString('de-DE')}`}
             </p>
             {selectedRange.startDate && selectedRange.endDate && (
-              <p className="text-xs text-gray-400 mt-1">
-                {Math.ceil((selectedRange.endDate.getTime() - selectedRange.startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1} Tage • €{Math.ceil((selectedRange.endDate.getTime() - selectedRange.startDate.getTime()) / (1000 * 60 * 60 * 24)) * 80 + 80} gesamt
-              </p>
+              <div className="mt-2 space-y-1">
+                <p className="text-sm text-[#D4A574] font-medium">
+                  {calculateMonthsSelected()} {calculateMonthsSelected() === 1 ? 'Monat' : 'Monate'} • €{calculateContributionAmount().toLocaleString()} Teilnahme
+                </p>
+                <p className="text-xs text-gray-400">
+                  €1.000 pro Monat Campervan-Nutzung ab Sommer 2026
+                </p>
+              </div>
             )}
           </div>
         )}

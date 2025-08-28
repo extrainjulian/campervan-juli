@@ -34,14 +34,14 @@ export default function HeroSection() {
             variants={fadeInUp}
             style={{ textDecoration: 'none' }}
           >
-            <span className="text-[#D4A574] block" style={{ textDecoration: 'none' }}>Campervan mieten Würzburg</span>
+            <span className="text-[#D4A574] block" style={{ textDecoration: 'none' }}>1 Monat Campervan für 1.000€</span>
           </motion.h1>
           
           <motion.h2 
             className="text-lg md:text-xl lg:text-2xl xl:text-3xl mb-4 md:mb-6"
             variants={fadeInUp}
           >
-            Freiheit erleben ab 80€ pro Nacht
+            Eine Monatsmiete für einen Monat Freiheit
           </motion.h2>
 
           {/* Desktop description text - hidden on mobile */}
@@ -49,8 +49,8 @@ export default function HeroSection() {
             className="hidden md:block text-sm md:text-base lg:text-lg text-gray-200 mb-6 md:mb-8 leading-relaxed"
             variants={fadeInUp}
           >
-            Unser selbstausgebauter Campervan bietet alles für dein Abenteuer - 
-            von der Küche bis zum gemütlichen Bett.
+            15 Menschen teilen sich gemeinsam €15k - zusammen bauen wir einen Campervan aus einem €10k Auto. 
+            Dein Beitrag = Deine Urlaubsmonate.
           </motion.p>
 
           {/* Button */}
@@ -63,7 +63,7 @@ export default function HeroSection() {
               className="bg-[#D4A574] hover:bg-[#c19660] text-black font-semibold text-lg px-8 py-3 h-auto"
               onClick={() => document.getElementById('availability')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              Jetzt mieten
+              Jetzt mitmachen
             </Button>
           </motion.div>
         </div>
