@@ -1,105 +1,194 @@
-<a href="https://demo-nextjs-with-supabase.vercel.app/">
-  <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://demo-nextjs-with-supabase.vercel.app/opengraph-image.png">
-  <h1 align="center">Next.js and Supabase Starter Kit</h1>
-</a>
+# 🚐 wuecamper
 
-<p align="center">
- The fastest way to build apps with Next.js and Supabase
-</p>
+**Community-funded Campervan Project in Würzburg**
 
-<p align="center">
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#demo"><strong>Demo</strong></a> ·
-  <a href="#deploy-to-vercel"><strong>Deploy to Vercel</strong></a> ·
-  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
-  <a href="#feedback-and-issues"><strong>Feedback and issues</strong></a>
-  <a href="#more-supabase-examples"><strong>More Examples</strong></a>
-</p>
-<br/>
+A crowdfunding platform for a shared campervan experience where the community collectively funds and uses a campervan conversion project.
 
-## Features
+## 🎯 Project Vision
 
-- Works across the entire [Next.js](https://nextjs.org) stack
-  - App Router
-  - Pages Router
-  - Middleware
-  - Client
-  - Server
-  - It just works!
-- supabase-ssr. A package to configure Supabase Auth to use cookies
-- Password-based authentication block installed via the [Supabase UI Library](https://supabase.com/ui/docs/nextjs/password-based-auth)
-- Styling with [Tailwind CSS](https://tailwindcss.com)
-- Components with [shadcn/ui](https://ui.shadcn.com/)
-- Optional deployment with [Supabase Vercel Integration and Vercel deploy](#deploy-your-own)
-  - Environment variables automatically assigned to Vercel project
+**wuecamper** is a community-driven project where multiple people contribute to funding a campervan conversion and share usage time. The goal is to make vanlife accessible and affordable while building a community around shared adventures.
 
-## Demo
+### Key Concept
+- **50€ per day** usage cost
+- **2-week minimum** booking requirement (€700 minimum)
+- **€25,000 total budget**: €15k personal investment + €10k community crowdfunding
+- **200 days** needed to reach the €10k community funding goal
 
-You can view a fully working demo at [demo-nextjs-with-supabase.vercel.app](https://demo-nextjs-with-supabase.vercel.app/).
+## ✨ Features
 
-## Deploy to Vercel
+### 🗓️ **Advanced Booking System**
+- Date-based reservations with 2-week minimum stays
+- Real-time availability checking
+- Booking conflict prevention
+- Mobile-optimized date picker
 
-Vercel deployment will guide you through creating a Supabase account and project.
+### 📊 **Live Project Tracking**
+- Real-time budget progress (€15k personal + community contributions)
+- Booking progress toward 200-day funding goal
+- Project milestones and timeline
+- Transparent financial tracking
 
-After installation of the Supabase integration, all relevant environment variables will be assigned to the project so the deployment is fully functioning.
+### 👤 **User Dashboard**
+- Personal booking management
+- Contribution impact visualization
+- Booking cancellation with confirmation
+- User contribution percentage display
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&project-name=nextjs-with-supabase&repository-name=nextjs-with-supabase&demo-title=nextjs-with-supabase&demo-description=This+starter+configures+Supabase+Auth+to+use+cookies%2C+making+the+user%27s+session+available+throughout+the+entire+Next.js+app+-+Client+Components%2C+Server+Components%2C+Route+Handlers%2C+Server+Actions+and+Middleware.&demo-url=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2F&external-id=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&demo-image=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2Fopengraph-image.png)
+### 🔐 **Authentication & Security**
+- Supabase authentication with protected routes
+- Row Level Security (RLS) policies
+- Mobile-optimized login experience
+- Email verification system
 
-The above will also clone the Starter kit to your GitHub, you can clone that locally and develop locally.
+## 🛠️ Tech Stack
 
-If you wish to just develop locally and not deploy to Vercel, [follow the steps below](#clone-and-run-locally).
+- **Framework**: Next.js 15 (App Router)
+- **Database**: Supabase (PostgreSQL)
+- **Authentication**: Supabase Auth
+- **Styling**: Tailwind CSS + shadcn/ui
+- **Animations**: Framer Motion
+- **Language**: TypeScript
+- **Date Handling**: date-fns
+- **Icons**: Lucide React
 
-## Clone and run locally
+## 🚀 Quick Start
 
-1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
+### Prerequisites
+- Node.js 18+
+- Supabase account
 
-2. Create a Next.js app using the Supabase Starter template npx command
+### 1. Clone & Install
+```bash
+git clone https://github.com/your-username/wuecamper.git
+cd wuecamper
+npm install
+```
 
-   ```bash
-   npx create-next-app --example with-supabase with-supabase-app
-   ```
+### 2. Environment Setup
+Create `.env.local`:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
-   ```bash
-   yarn create next-app --example with-supabase with-supabase-app
-   ```
+### 3. Database Setup
+```bash
+# Run the schema in your Supabase SQL editor
+# File: supabase-schema.sql
+```
 
-   ```bash
-   pnpm create next-app --example with-supabase with-supabase-app
-   ```
+### 4. Development
+```bash
+npm run dev
+```
 
-3. Use `cd` to change into the app's directory
+Visit [http://localhost:3000](http://localhost:3000)
 
-   ```bash
-   cd with-supabase-app
-   ```
+## 📁 Project Structure
 
-4. Rename `.env.example` to `.env.local` and update the following:
+```
+├── app/
+│   ├── actions/           # Server actions
+│   │   ├── date-bookings.ts
+│   │   └── project-budget.ts
+│   ├── auth/             # Authentication pages
+│   ├── dashboard/        # User dashboard
+│   └── page.tsx         # Landing page
+├── components/
+│   ├── auth/            # Auth components
+│   ├── booking/         # Booking system
+│   ├── sections/        # Page sections
+│   └── ui/              # UI components
+├── lib/
+│   ├── supabase/        # Supabase configuration
+│   └── utils.ts         # Utilities
+├── types/
+│   └── booking.ts       # TypeScript types
+└── supabase-schema.sql  # Database schema
+```
 
-   ```
-   NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=[INSERT SUPABASE PROJECT API ANON KEY]
-   ```
+## 🗄️ Database Schema
 
-   Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found in [your Supabase project's API settings](https://supabase.com/dashboard/project/_?showConnect=true)
+### Main Tables
+- **`date_bookings`**: User reservations with date ranges
+- **`profiles`**: Extended user information
 
-5. You can now run the Next.js local development server:
+### Key Features
+- Booking overlap prevention with PostgreSQL functions
+- Cost validation (minimum €700 for 14 days)
+- Status tracking (pending/confirmed/cancelled)
+- Public read access for availability display
 
-   ```bash
-   npm run dev
-   ```
+## 🎨 Design System
 
-   The starter kit should now be running on [localhost:3000](http://localhost:3000/).
+- **Colors**: Earth tones (#D4A574, #4A5D23, #2B5F75)
+- **Dark Theme**: Consistent across all components
+- **Mobile-First**: Responsive design optimized for mobile usage
+- **Animations**: Smooth transitions with Framer Motion
 
-6. This template comes with the default shadcn/ui style initialized. If you instead want other ui.shadcn styles, delete `components.json` and [re-install shadcn/ui](https://ui.shadcn.com/docs/installation/next)
+## 🧪 Key Components
 
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
+### `WuecamperDatePicker`
+Custom date range picker with:
+- 2-week minimum validation
+- Blocked date visualization
+- German localization
+- Real-time cost calculation
 
-## Feedback and issues
+### `ProtectedRoute`
+Authentication wrapper with:
+- Auto-redirect for unauthenticated users
+- Loading states
+- Auth state monitoring
 
-Please file feedback and issues over on the [Supabase GitHub org](https://github.com/supabase/supabase/issues/new/choose).
+### Project Budget Tracker
+Real-time tracking of:
+- Personal investment (€15k)
+- Community contributions
+- Progress toward €25k total goal
+- Booking progress toward 200-day target
 
-## More Supabase examples
+## 📱 Mobile Optimization
 
-- [Next.js Subscription Payments Starter](https://github.com/vercel/nextjs-subscription-payments)
-- [Cookie-based Auth and the Next.js 13 App Router (free course)](https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF)
-- [Supabase Auth and the Next.js App Router](https://github.com/supabase/supabase/tree/master/examples/auth/nextjs)
+- **iOS Safari Compatible**: Fixed mobile login redirection issues
+- **Touch-Friendly**: Large touch targets and mobile gestures
+- **Responsive**: Optimized for all screen sizes
+- **PWA-Ready**: Service worker support for offline usage
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+```bash
+# Connect to Vercel
+vercel
+
+# Set environment variables in Vercel dashboard
+```
+
+### Docker
+```bash
+docker build -t wuecamper .
+docker run -p 3000:3000 wuecamper
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is private and proprietary.
+
+## 📞 Contact
+
+**Julian Krämer**
+- Email: juliankraemer184@gmail.com
+- Project: wuecamper Community Campervan
+
+---
+
+*Made with ❤️ for the vanlife community in Würzburg*
