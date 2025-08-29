@@ -34,7 +34,17 @@ export default function LoginPage() {
       if (error) {
         setError(error.message);
       } else {
-        router.push("/dashboard");
+        // Wait for auth state to update, then redirect
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          // Use multiple fallback methods for mobile compatibility
+          try {
+            router.replace("/dashboard");
+          } catch (routerError) {
+            console.warn("Router failed, using window.location:", routerError);
+            window.location.replace("/dashboard");
+          }
+        }
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Ein Fehler ist aufgetreten");
