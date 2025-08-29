@@ -6,11 +6,12 @@ export type ProjectBudgetData = {
   currentBudget: number;
   totalBudget: number;
   progressPercentage: number;
-  currentParticipants: number;
-  totalParticipants: number;
-  totalMonthsBooked: number;
-  pendingRevenue: number;
+  totalDaysBooked: number;
+  targetDaysFor10k: number;
+  bookingProgressPercentage: number;
   confirmedRevenue: number;
+  pendingRevenue: number;
+  personalInvestment: number;
 };
 
 export type ProjectBudgetResponse = {
@@ -23,9 +24,9 @@ export async function getProjectBudget(): Promise<ProjectBudgetResponse> {
   try {
     const supabase = await createClient();
     
-    // Fetch all bookings to calculate budget
+    // Fetch all date bookings to calculate budget
     const { data: bookings, error } = await supabase
-      .from('month_bookings')
+      .from('date_bookings')
       .select('*')
       .neq('status', 'cancelled');
 
@@ -37,37 +38,39 @@ export async function getProjectBudget(): Promise<ProjectBudgetResponse> {
       };
     }
 
-    // Calculate budget metrics
-    const totalBudget = 25000; // Fixed total budget needed
-    const revenuePerMonth = 1000; // €1000 per month
-    const personalInvestment = 10000; // Julian's initial investment
+    // Budget calculations
+    const totalBudget = 25000; // Total budget needed for full conversion
+    const personalInvestment = 15000; // Julian's personal investment
+    // const targetCrowdfunding = 10000; // Target crowdfunding amount (for reference)
+    const targetDaysFor10k = 200; // 200 days needed to achieve 10k€ (200 * 50€ = 10k€)
     
-    // Calculate confirmed and pending revenue
-    const confirmedBookings = (bookings || []).filter(b => b.status === 'booked');
+    // Calculate revenue from bookings
+    const confirmedBookings = (bookings || []).filter(b => b.status === 'confirmed');
     const pendingBookings = (bookings || []).filter(b => b.status === 'pending');
     
-    const confirmedRevenue = confirmedBookings.reduce((sum, booking) => sum + (booking.total_months * revenuePerMonth), 0);
-    const pendingRevenue = pendingBookings.reduce((sum, booking) => sum + (booking.total_months * revenuePerMonth), 0);
+    const confirmedRevenue = confirmedBookings.reduce((sum, booking) => sum + booking.total_cost, 0);
+    const pendingRevenue = pendingBookings.reduce((sum, booking) => sum + booking.total_cost, 0);
     
+    // Total current budget (personal investment + confirmed + pending revenue)
     const currentBudget = personalInvestment + confirmedRevenue + pendingRevenue;
     const progressPercentage = Math.min((currentBudget / totalBudget) * 100, 100);
     
-    // Calculate participants (unique users)
-    const uniqueParticipants = new Set((bookings || []).map(b => b.user_id)).size;
-    const totalParticipants = 15; // Max participants
+    // Calculate total days booked
+    const totalDaysBooked = (bookings || []).reduce((sum, booking) => sum + booking.total_days, 0);
     
-    // Calculate total months booked
-    const totalMonthsBooked = (bookings || []).reduce((sum, booking) => sum + booking.total_months, 0);
+    // Calculate booking progress towards 10k target
+    const bookingProgressPercentage = Math.min((totalDaysBooked / targetDaysFor10k) * 100, 100);
 
     const budgetData: ProjectBudgetData = {
       currentBudget,
       totalBudget,
       progressPercentage,
-      currentParticipants: uniqueParticipants,
-      totalParticipants,
-      totalMonthsBooked,
+      totalDaysBooked,
+      targetDaysFor10k,
+      bookingProgressPercentage,
+      confirmedRevenue,
       pendingRevenue,
-      confirmedRevenue
+      personalInvestment
     };
 
     return {

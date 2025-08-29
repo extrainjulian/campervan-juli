@@ -4,15 +4,21 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
+import { useRouter } from "next/navigation";
 
 export default function HeroSection() {
+  const router = useRouter();
+
+  const handleMitmachen = () => {
+    router.push('/dashboard');
+  };
   return (
     <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/frontview-min.png"
-          alt="CampervanJuli van on beach"
+          alt="wuecamper van on beach"
           fill
           className="object-cover"
           priority
@@ -34,14 +40,14 @@ export default function HeroSection() {
             variants={fadeInUp}
             style={{ textDecoration: 'none' }}
           >
-            <span className="text-[#D4A574] block" style={{ textDecoration: 'none' }}>1 Monat Campervan für 1.000€</span>
+            <span className="text-[#D4A574] block" style={{ textDecoration: 'none' }}>Campervan für 50€ am Tag</span>
           </motion.h1>
           
           <motion.h2 
             className="text-lg md:text-xl lg:text-2xl xl:text-3xl mb-4 md:mb-6"
             variants={fadeInUp}
           >
-            Eine Monatsmiete für einen Monat Freiheit
+            Aufbau als Community unterstützen
           </motion.h2>
 
           {/* Desktop description text - hidden on mobile */}
@@ -49,8 +55,8 @@ export default function HeroSection() {
             className="hidden md:block text-sm md:text-base lg:text-lg text-gray-200 mb-6 md:mb-8 leading-relaxed"
             variants={fadeInUp}
           >
-            15 Menschen teilen sich gemeinsam €15k - zusammen bauen wir einen Campervan aus einem €10k Auto. 
-            Dein Beitrag = Deine Urlaubsmonate.
+            Gemeinsam finanzieren wir den Aufbau unseres Campervans. 
+            Dein finanzieller Beitrag = Deine gebuchte Zeit mit dem Van.
           </motion.p>
 
           {/* Mobile Button - Inside hero text container */}
@@ -61,7 +67,7 @@ export default function HeroSection() {
             <Button 
               size="lg"
               className="bg-[#D4A574] hover:bg-[#c19660] text-black font-semibold text-lg px-8 py-3 h-auto"
-              onClick={() => document.getElementById('availability')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={handleMitmachen}
             >
               Jetzt mitmachen
             </Button>
@@ -75,7 +81,7 @@ export default function HeroSection() {
             <Button 
               size="lg"
               className="bg-[#D4A574] hover:bg-[#c19660] text-black font-semibold text-lg px-8 py-3 h-auto"
-              onClick={() => document.getElementById('availability')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={handleMitmachen}
             >
               Jetzt mitmachen
             </Button>

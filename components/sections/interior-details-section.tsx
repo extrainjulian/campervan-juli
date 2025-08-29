@@ -9,14 +9,15 @@ import { getProjectBudget, type ProjectBudgetData } from "@/app/actions/project-
 
 export default function InteriorDetailsSection() {
   const [budgetData, setBudgetData] = useState<ProjectBudgetData>({
-    currentBudget: 10000,
+    currentBudget: 15000,
     totalBudget: 25000,
-    progressPercentage: 40,
-    currentParticipants: 1,
-    totalParticipants: 15,
-    totalMonthsBooked: 0,
+    progressPercentage: 60,
+    totalDaysBooked: 0,
+    targetDaysFor10k: 200,
+    bookingProgressPercentage: 0,
+    confirmedRevenue: 0,
     pendingRevenue: 0,
-    confirmedRevenue: 10000
+    personalInvestment: 15000
   });
   const [loading, setLoading] = useState(true);
 
@@ -48,7 +49,7 @@ export default function InteriorDetailsSection() {
     { 
       id: 2, 
       title: "Auto gekauft", 
-      description: "€10.000 • Peugeot Boxer L2H2", 
+      description: "€10.000 • L2H2 5,40m Kastenwagen", 
       status: "completed",
       date: "Oktober 2025"
     },
@@ -134,23 +135,54 @@ export default function InteriorDetailsSection() {
                       <span className="text-amber-600">€{(budgetData.totalBudget - budgetData.currentBudget).toLocaleString()} noch benötigt</span>
                     )}
                   </div>
+                  
+                  {/* Budget breakdown */}
+                  <div className="pt-2 text-xs text-gray-500 space-y-1">
+                    <div className="flex justify-between">
+                      <span>Eigene Investition:</span>
+                      <span className="font-medium">€{budgetData.personalInvestment.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Community Beiträge:</span>
+                      <span className="font-medium">€{(budgetData.confirmedRevenue + budgetData.pendingRevenue).toLocaleString()}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
               
-              {/* People Counter */}
+              {/* Booking Progress */}
               <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-[#D4A574]/20">
                 <div className="flex items-center gap-3 mb-4">
                   <Users className="h-6 w-6 text-[#D4A574]" />
-                  <h3 className="text-xl font-semibold text-[#2B5F75]">Community</h3>
+                  <h3 className="text-xl font-semibold text-[#2B5F75]">Buchungsfortschritt</h3>
                 </div>
                 
-                <div className="flex items-center gap-4">
-                  <span className="text-2xl font-bold text-[#2B5F75]">{budgetData.currentParticipants}</span>
-                  <span className="text-gray-600">von {budgetData.totalParticipants} Menschen</span>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-2xl font-bold text-[#2B5F75]">{budgetData.totalDaysBooked} Tage</span>
+                    <span className="text-lg text-gray-600">von {budgetData.targetDaysFor10k} Tagen</span>
+                  </div>
+                  
+                  {/* Progress Bar for Bookings */}
+                  <div className="w-full bg-gray-200 rounded-full h-3">
+                    <div 
+                      className="bg-gradient-to-r from-[#4A5D23] to-[#D4A574] h-3 rounded-full transition-all duration-700"
+                      style={{ width: `${budgetData.bookingProgressPercentage}%` }}
+                    />
+                  </div>
+                  
+                  <div className="flex justify-between items-center text-sm text-gray-600">
+                    <span>{Math.round(budgetData.bookingProgressPercentage)}% erreicht</span>
+                    <span className="text-amber-600">{budgetData.targetDaysFor10k - budgetData.totalDaysBooked} Tage für 10k€-Ziel</span>
+                  </div>
                 </div>
-                <p className="text-sm text-gray-600 mt-2">
-                  {budgetData.totalMonthsBooked} {budgetData.totalMonthsBooked === 1 ? 'Monat' : 'Monate'} bereits gebucht! 
-                  {" "}{budgetData.totalParticipants - budgetData.currentParticipants} Plätze noch verfügbar.
+                
+                <p className="text-sm text-gray-600 mt-4">
+                  {budgetData.totalDaysBooked > 0 ? (
+                    <>€{budgetData.confirmedRevenue + budgetData.pendingRevenue} durch Buchungen erreicht!</>
+                  ) : (
+                    <>Noch keine Buchungen vorhanden - sei der Erste!</>
+                  )}
                 </p>
               </div>
             </motion.div>

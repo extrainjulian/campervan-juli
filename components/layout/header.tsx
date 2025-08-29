@@ -10,7 +10,7 @@ export default function Header() {
             href="/" 
             className="text-2xl font-bold text-white hover:text-[#D4A574] transition-colors"
           >
-            Juli-Camper
+            wuecamper
           </Link>
           
           <Button className="bg-[#D4A574] hover:bg-[#c19660] text-black font-semibold px-6 py-2">

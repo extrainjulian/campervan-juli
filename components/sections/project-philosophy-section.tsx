@@ -20,7 +20,7 @@ export default function ProjectPhilosophySection() {
             className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
             variants={fadeInUp}
           >
-            <span className="text-[#D4A574]">Peugeot Boxer</span> Selbstausbau
+            <span className="text-[#D4A574]">Campervan</span> Selbstausbau
           </motion.h2>
           <motion.p 
             className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
@@ -45,7 +45,7 @@ export default function ProjectPhilosophySection() {
             variants={fadeInUp}
           >
             <Truck className="h-10 w-10 text-[#D4A574] mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">Peugeot Boxer</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-3">L2H2 5,40m Kastenwagen</h3>
             <p className="text-gray-600">
               Robuster Kastenwagen mit viel Platz für den kompletten Ausbau zu einem 
               vollwertigen Campervan mit allem Komfort.
@@ -60,7 +60,7 @@ export default function ProjectPhilosophySection() {
             <Users className="h-10 w-10 text-[#D4A574] mb-4" />
             <h3 className="text-xl font-semibold text-gray-900 mb-3">Community-Projekt</h3>
             <p className="text-gray-600">
-              15 Menschen teilen sich einen Traum. Gemeinsam planen, bauen und nutzen 
+              Eine kleine Gruppe teilt sich einen Traum. Gemeinsam planen, bauen und nutzen 
               wir den Campervan in einer enthusiastischen Gemeinschaft.
             </p>
           </motion.div>
@@ -73,7 +73,7 @@ export default function ProjectPhilosophySection() {
             <MapPin className="h-10 w-10 text-[#D4A574] mb-4" />
             <h3 className="text-xl font-semibold text-gray-900 mb-3">Einfache Teilnahme</h3>
             <p className="text-gray-600">
-              So simpel wie möglich: €1.000 für 1 Monat Urlaub. 
+              So simpel wie möglich: 50€ pro Tag, mindestens 2 Wochen. 
               Keine versteckten Kosten, keine komplizierte Abrechnung.
             </p>
           </motion.div>

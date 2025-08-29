@@ -3,19 +3,18 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { fadeInLeft, staggerContainer } from "@/lib/animations";
-import MonthSelector from "@/components/booking/month-selector";
-import { MonthRange } from "@/types/booking";
+import WuecamperDatePicker from "@/components/booking/wuecamper-date-picker";
+import { DateRangeSelection } from "@/types/booking";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { createMonthBooking } from "@/app/actions/create-booking";
+import { createDateBooking, getDateAvailability } from "@/app/actions/date-bookings";
 
 export default function MountainSection() {
-  const [selectedRange, setSelectedRange] = useState<MonthRange>({
-    startMonth: null,
-    startYear: null,
-    endMonth: null,
-    endYear: null
+  const [selectedRange, setSelectedRange] = useState<DateRangeSelection>({
+    startDate: null,
+    endDate: null
   });
+  const [blockedRanges, setBlockedRanges] = useState<Array<{ startDate: Date; endDate: Date; reason?: string }>>([]);
   const [user, setUser] = useState<any>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -27,7 +26,13 @@ export default function MountainSection() {
       setUser(user);
     };
 
+    const loadAvailability = async () => {
+      const availability = await getDateAvailability();
+      setBlockedRanges(availability.blockedRanges);
+    };
+
     checkUser();
+    loadAvailability();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
@@ -45,9 +50,9 @@ export default function MountainSection() {
       return;
     }
 
-    // Check if at least startMonth is selected (single month selection is valid)
-    if (!selectedRange.startMonth || !selectedRange.startYear) {
-      alert("Bitte wähle einen Zeitraum aus");
+    // Check if date range is selected
+    if (!selectedRange.startDate || !selectedRange.endDate) {
+      alert("Bitte wähle einen gültigen Zeitraum aus");
       return;
     }
 
@@ -56,10 +61,10 @@ export default function MountainSection() {
       setLoading(true);
       
       try {
-        const result = await createMonthBooking({
+        const result = await createDateBooking({
           userId: user.id,
-          userEmail: user.email,
-          userName: user.user_metadata?.full_name || user.email,
+          userEmail: user.email || '',
+          userName: user.user_metadata?.full_name || user.email || 'Unbekannt',
           selectedRange
         });
 
@@ -94,21 +99,24 @@ export default function MountainSection() {
                 Deinen <span className="text-[#D4A574]">Zeitraum</span> auswählen
               </h2>
               <p className="text-base text-gray-300 mb-6">
-                Wähle deine gewünschten Monate zwischen 2026 und 2027. 
-                Jeder Monat kostet €1.000 für die Teilnahme am Projekt.
+                Wähle deinen gewünschten Zeitraum zwischen 2026 und 2027. 
+                Mindestens 2 Wochen, 50€ pro Tag.
               </p>
             </motion.div>
             
             <motion.div variants={fadeInLeft} className="space-y-6">
-              <MonthSelector onSelectionChange={setSelectedRange} />
+              <WuecamperDatePicker 
+                onSelectionChange={setSelectedRange} 
+                blockedRanges={blockedRanges}
+              />
               
               <div className="text-center">
                 <button 
                   onClick={handleReservation}
-                  disabled={loading}
+                  disabled={loading || !selectedRange.startDate || !selectedRange.endDate}
                   className="bg-[#D4A574] hover:bg-[#c19660] disabled:opacity-50 text-black font-semibold px-8 py-3 rounded-lg transition-colors text-base"
                 >
-                  {loading ? "Wird erstellt..." : "Teilnahme reservieren"}
+                  {loading ? "Wird erstellt..." : "Zeitraum reservieren"}
                 </button>
               </div>
             </motion.div>

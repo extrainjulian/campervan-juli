@@ -107,7 +107,7 @@ export default function LoginPage() {
           <div className="relative w-full h-full max-w-2xl max-h-[600px] rounded-3xl overflow-hidden shadow-2xl">
             <Image
               src="/images/sideview.png"
-              alt="CampervanJuli Seitenansicht"
+              alt="wuecamper Seitenansicht"
               fill
               className="object-cover object-center hover:scale-105 transition-transform duration-700"
               style={{ filter: 'brightness(1.05) contrast(1.1)' }}
@@ -233,7 +233,7 @@ export default function LoginPage() {
         <div className="relative w-full h-full max-w-2xl max-h-[600px] rounded-3xl overflow-hidden shadow-2xl">
           <Image
             src="/images/sideview.png"
-            alt="CampervanJuli Seitenansicht"
+            alt="wuecamper Seitenansicht"
             fill
             className="object-cover object-center hover:scale-105 transition-transform duration-700"
             style={{ filter: 'brightness(1.05) contrast(1.1)' }}

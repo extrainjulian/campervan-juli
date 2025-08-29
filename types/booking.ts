@@ -1,52 +1,84 @@
-// Types for month-based booking and availability system
+// Types for date-based booking and availability system
 
-export type BookingStatus = 'available' | 'booked' | 'pending' | 'blocked' | 'past';
+export type DateBookingStatus = 'pending' | 'confirmed' | 'cancelled';
 
-// Month-based booking entity
-export type MonthBooking = {
+// ========================================
+// NEW DATE-BASED BOOKING TYPES
+// ========================================
+
+// Date-based booking entity (2-week minimum system)
+export type DateBooking = {
   id: string;
-  startMonth: number; // 1-12
-  startYear: number;
-  endMonth: number; // 1-12
-  endYear: number;
-  totalMonths: number;
-  status: BookingStatus;
-  participantName?: string;
-  participantEmail?: string;
+  userId: string;
+  startDate: Date;
+  endDate: Date;
+  totalDays: number;
+  totalCost: number; // in euros (50€/day)
+  status: DateBookingStatus;
+  participantName: string;
+  participantEmail: string;
   participantPhone?: string;
+  notes?: string;
   createdAt: string;
   updatedAt: string;
 };
 
-export type MonthStatus = {
-  year: number;
-  month: number; // 1-12
-  status: BookingStatus;
-  bookingId?: string;
-};
-
-export type MonthRange = {
-  startMonth: number | null; // 1-12
-  startYear: number | null;
-  endMonth: number | null; // 1-12
-  endYear: number | null;
-};
-
-export type ParticipationFormData = {
-  startMonth: number;
-  startYear: number;
-  endMonth: number;
-  endYear: number;
-  participantName: string;
-  participantEmail: string;
-  participantPhone?: string;
-};
-
-// Legacy types for compatibility (can be removed later)
-export type DateRange = {
+// Date range for the new system
+export type DateRangeSelection = {
   startDate: Date | null;
   endDate: Date | null;
 };
 
-// Utility type for month formatting
-export type MonthString = string; // YYYY-MM format
+// Form data for creating date bookings
+export type DateBookingFormData = {
+  startDate: Date;
+  endDate: Date;
+  participantName: string;
+  participantEmail: string;
+  participantPhone?: string;
+  notes?: string;
+};
+
+// API response types
+export type CreateDateBookingRequest = {
+  userId: string;
+  userEmail: string;
+  userName: string;
+  selectedRange: DateRangeSelection;
+  notes?: string;
+};
+
+export type CreateDateBookingResponse = {
+  success: boolean;
+  booking?: DateBooking;
+  error?: string;
+};
+
+// Availability checking
+export type DateAvailability = {
+  date: Date;
+  isAvailable: boolean;
+  isBlocked: boolean;
+  bookingId?: string;
+};
+
+export type DateAvailabilityResponse = {
+  availableDates: Date[];
+  blockedRanges: Array<{
+    startDate: Date;
+    endDate: Date;
+    reason?: string;
+  }>;
+};
+
+// Utility types for validation
+export type BookingValidationResult = {
+  isValid: boolean;
+  errors: string[];
+  warnings?: string[];
+};
+
+// Cost calculation helpers
+export const DAILY_RATE = 50; // 50€ per day
+export const MINIMUM_DAYS = 14; // 2 weeks minimum
+export const MINIMUM_COST = DAILY_RATE * MINIMUM_DAYS; // 700€

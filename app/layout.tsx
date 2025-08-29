@@ -9,12 +9,12 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Juli-Camper | Campervan mieten Würzburg | CamperLife Deutschland",
-  description: "Campervan mieten ab 80€/Tag in Würzburg. Träume erleben und verwirklichen mit unserem selbstausgebauten Wohnmobil. CamperLife für ganz Deutschland - Camper mieten, Vanlife, Wohnmobil.",
-  keywords: "Campervan mieten, Wohnmobil mieten, Camper mieten Würzburg, Vanlife Deutschland, CamperLife, Wohnmobil Würzburg, Campervan Deutschland, Van mieten, Camping Würzburg",
+  title: "wuecamper | Campervan Community Würzburg | Crowdfunding Projekt",
+  description: "Campervan Community-Projekt in Würzburg. 50€ am Tag, crowdfinanziert aufgebaut. Gemeinsam einen Van teilen und Vanlife erleben.",
+  keywords: "Campervan Community, Crowdfunding Camper, Van teilen Würzburg, Vanlife Community, wuecamper, Würzburg Campervan, Community Van, Camper Crowdfunding",
   openGraph: {
-    title: "Juli-Camper | Campervan mieten Würzburg | CamperLife Deutschland",
-    description: "Campervan mieten ab 80€/Tag in Würzburg. Träume erleben und verwirklichen mit unserem selbstausgebauten Wohnmobil.",
+    title: "wuecamper | Campervan Community Würzburg | Crowdfunding Projekt",
+    description: "Campervan Community-Projekt in Würzburg. 50€ am Tag, crowdfinanziert aufgebaut. Gemeinsam einen Van teilen und Vanlife erleben.",
     type: "website",
     locale: "de_DE",
   },
