@@ -2,22 +2,21 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { fadeInLeft, fadeInRight, staggerContainer } from "@/lib/animations";
+import { fadeInLeft, staggerContainer } from "@/lib/animations";
 import { CheckCircle, Clock, Users, Euro } from "lucide-react";
-import Image from "next/image";
 import { getProjectBudget, type ProjectBudgetData } from "@/app/actions/project-budget";
 
 export default function InteriorDetailsSection() {
   const [budgetData, setBudgetData] = useState<ProjectBudgetData>({
-    currentBudget: 15000,
-    totalBudget: 25000,
-    progressPercentage: 60,
+    currentBudget: 10000,
+    totalBudget: 20000,
+    progressPercentage: 50,
     totalDaysBooked: 0,
     targetDaysFor10k: 200,
     bookingProgressPercentage: 0,
     confirmedRevenue: 0,
     pendingRevenue: 0,
-    personalInvestment: 15000
+    personalInvestment: 10000
   });
   const [loading, setLoading] = useState(true);
 
@@ -39,38 +38,38 @@ export default function InteriorDetailsSection() {
   }, []);
 
   const milestones = [
-    { 
-      id: 1, 
-      title: "Ausbauplanung", 
-      description: "Design & Materialliste erstellt", 
+    {
+      id: 1,
+      title: "Ausbauplanung",
+      description: "Design & Materialliste erstellt",
       status: "completed",
       date: "August 2025"
     },
-    { 
-      id: 2, 
-      title: "Auto gekauft", 
-      description: "€10.000 • L2H2 5,40m Kastenwagen", 
+    {
+      id: 2,
+      title: "Peugeot Boxer gekauft!",
+      description: "€8.100 • L2H2 Kastenwagen • Deal des Jahres",
       status: "completed",
-      date: "Oktober 2025"
+      date: "04. Oktober 2025"
     },
-    { 
-      id: 3, 
-      title: "Ausbau beginnt", 
-      description: "Community-Werkstatt", 
+    {
+      id: 3,
+      title: "Ausbau beginnt",
+      description: "Community-Werkstatt",
       status: "in_progress",
       date: "Dezember 2025"
     },
-    { 
-      id: 4, 
-      title: "Vollfinanzierung", 
-      description: "€25.000 erreicht", 
+    {
+      id: 4,
+      title: "Vollfinanzierung",
+      description: "€20.000 erreicht",
       status: "pending",
       date: "Januar 2026"
     },
-    { 
-      id: 5, 
-      title: "Erste Reise", 
-      description: "Mai 2026", 
+    {
+      id: 5,
+      title: "Erste Reise",
+      description: "Mai 2026",
       status: "pending",
       date: "Mai 2026"
     }
@@ -78,17 +77,14 @@ export default function InteriorDetailsSection() {
 
   return (
     <section className="py-20 bg-[#F5F1EB]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          
-          {/* Left Content - Project Progress */}
-          <motion.div 
-            className="space-y-8"
-            variants={staggerContainer}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true, amount: 0.3 }}
-          >
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          className="space-y-8"
+          variants={staggerContainer}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true, amount: 0.3 }}
+        >
             <motion.div variants={fadeInLeft}>
               <h2 className="text-4xl md:text-5xl font-bold text-[#2B5F75] mb-6">
                 Campervan
@@ -230,28 +226,7 @@ export default function InteriorDetailsSection() {
                 ))}
               </div>
             </motion.div>
-          </motion.div>
-
-          {/* Right Image */}
-          <motion.div 
-            className="w-full"
-            variants={fadeInRight}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl" style={{ aspectRatio: '4/3' }}>
-              <Image
-                src="/images/interior-min.png"
-                alt="Campervan Innenraum Layout"
-                fill
-                className="object-cover object-center hover:scale-105 transition-transform duration-700"
-                style={{ filter: 'brightness(1.05) contrast(1.1)' }}
-              />
-            </div>
-          </motion.div>
-
-        </div>
+        </motion.div>
       </div>
     </section>
   );

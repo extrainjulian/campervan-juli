@@ -1,7 +1,7 @@
 import HeroSection from "@/components/sections/hero-section";
 import AboutSection from "@/components/sections/about-section";
+import PurchaseMilestoneSection from "@/components/sections/purchase-milestone-section";
 import InteriorDetailsSection from "@/components/sections/interior-details-section";
-import ProjectPhilosophySection from "@/components/sections/project-philosophy-section";
 import Footer from "@/components/layout/footer";
 
 export default function Home() {
@@ -9,8 +9,8 @@ export default function Home() {
     <main className="min-h-screen">
       <HeroSection />
       <AboutSection />
+      <PurchaseMilestoneSection />
       <InteriorDetailsSection />
-      <ProjectPhilosophySection />
       <Footer />
     </main>
   );

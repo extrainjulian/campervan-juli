@@ -39,10 +39,10 @@ export async function getProjectBudget(): Promise<ProjectBudgetResponse> {
     }
 
     // Budget calculations
-    const totalBudget = 25000; // Total budget needed for full conversion
-    const personalInvestment = 15000; // Julian's personal investment
-    // const targetCrowdfunding = 10000; // Target crowdfunding amount (for reference)
-    const targetDaysFor10k = 200; // 200 days needed to achieve 10k€ (200 * 50€ = 10k€)
+    const totalBudget = 20000; // Total budget needed for full conversion
+    const personalInvestment = 15000; // Julian's personal investment (10k Julian + 5k Mum)
+    // const targetCrowdfunding = 5000; // Target crowdfunding amount (for reference)
+    const targetDaysFor10k = 100; // 100 days needed to achieve 5k€ (100 * 50€ = 5k€)
     
     // Calculate revenue from bookings
     const confirmedBookings = (bookings || []).filter(b => b.status === 'confirmed');
