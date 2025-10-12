@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from "@/lib/animations";
-import { CheckCircle, TrendingDown, Wrench } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import Image from "next/image";
 
 export default function PurchaseMilestoneSection() {
